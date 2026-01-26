@@ -38,6 +38,8 @@ const login = async (req,res) => {
         
         res.status(200).json({
             msg : "login berhasil",
+            id : user.id,
+            role : user.role,
             token
         })
     } catch (error) {

@@ -103,7 +103,7 @@ const updateUser = async (req,res) => {
 
         const hashPassword = await bcrypt.hash(password, 10)
 
-        const [result ] = await db.query (`UPDATE users SET name = ?, email = ?, password = ? WHERE id = ? `, [name, email,hashPassword, role, id])
+        await db.query (`UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ? `, [name, email,hashPassword, role, id])
         res.status(200).json({
             msg : "user berhasil di update",
             payload : ({

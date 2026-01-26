@@ -9,6 +9,12 @@ const {
     deleteUser
 } = require ("../controller/usersController.js")
 
+const auth = require ("../middleware/auth.js")
+const {isAdmin,
+        isMember 
+    } = require ("../middleware/role.js")
+
+
 
 router.get("/", getUsers)
 
@@ -16,8 +22,8 @@ router.get("/:id", getUserById)
 
 router.post("/", createUser)
 
-router.put("/:id", updateUser)
+router.put("/:id", auth, isAdmin, updateUser)
 
-router.delete("/" , deleteUser)
+router.delete("/" , auth, isAdmin, deleteUser)
 
 module.exports = router
