@@ -62,7 +62,7 @@ const createUser = async (req,res) => {
 
         const hashPassword = await bcrypt.hash(password, 10)
 
-        const [result] = await db.query(`INSERT INTO users (name, email, password) VALUES (?, ? , ?, ?)`, [name,email,hashPassword, role])
+        const [result] = await db.query(`INSERT INTO users (name, email, password, role) VALUES (?, ? , ?, ?)`, [name,email,hashPassword, role])
         
         res.status(201).json({
             msg : "user berhasil dibuat"
