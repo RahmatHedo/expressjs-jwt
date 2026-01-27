@@ -11,19 +11,20 @@ const {
 
 const auth = require ("../middleware/auth.js")
 const {isAdmin,
-        isMember 
+        isMember,
+        isOwner 
     } = require ("../middleware/role.js")
 
 
 
-router.get("/", getUsers)
+router.get("/",auth, isAdmin, getUsers)
 
-router.get("/:id", getUserById)
+router.get("/:id",auth, isAdmin, getUserById)
 
 router.post("/", createUser)
 
-router.put("/:id", auth, isAdmin, updateUser)
+router.put("/:id", auth, isOwner, updateUser)
 
-router.delete("/:id" , auth, isAdmin, deleteUser)
+router.delete("/:id" , auth, isOwner, deleteUser)
 
 module.exports = router
