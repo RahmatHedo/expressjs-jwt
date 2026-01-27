@@ -24,6 +24,6 @@ router.post("/", createUser)
 
 router.put("/:id", auth, isAdmin, updateUser)
 
-router.delete("/" , auth, isAdmin, deleteUser)
+router.delete("/:id" , auth, isAdmin, deleteUser)
 
 module.exports = router
