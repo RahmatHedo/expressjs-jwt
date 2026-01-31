@@ -6,7 +6,7 @@ const getUsers = async (req,res) => {
         const [users] =  await db.query(`SELECT * FROM users`) 
        
         res.status(200).json({
-            msg : "user berhasil did_userapat",
+            msg : "user berhasil didapat",
             data : users
         })
         
