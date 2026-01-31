@@ -19,12 +19,12 @@ const {isAdmin,
 
 router.get("/",auth, isAdmin, getUsers)
 
-router.get("/:id",auth, isAdmin, getUserById)
+router.get("/:id_user",auth, isAdmin, getUserById)
 
 router.post("/", createUser)
 
-router.put("/:id", auth, isOwner, updateUser)
+router.put("/:id_user", auth, isOwner, updateUser)
 
-router.delete("/:id" , auth, isOwner, deleteUser)
+router.delete("/:id_user" , auth, isOwner, deleteUser)
 
 module.exports = router

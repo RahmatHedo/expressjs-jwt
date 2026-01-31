@@ -23,12 +23,12 @@ const login = async (req,res) => {
         const cekPassword = await bcrypt.compare(password, user.password)
         if (!cekPassword) {
             return res.status(401).json({
-                msg : "password salah"
+                msg : "email atau password salah"
             })
         }
 
         const token = jwt.sign({
-            id : user.id,
+            id : user.id_user,
             role : user.role
         },
             process.env.SECRET_KEY,
@@ -38,7 +38,7 @@ const login = async (req,res) => {
         
         res.status(200).json({
             msg : "login berhasil",
-            id : user.id,
+            id : user.id_user,
             role : user.role,
             token
         })

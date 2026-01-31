@@ -6,7 +6,7 @@ const getUsers = async (req,res) => {
         const [users] =  await db.query(`SELECT * FROM users`) 
        
         res.status(200).json({
-            msg : "user berhasil didapat",
+            msg : "user berhasil did_userapat",
             data : users
         })
         
@@ -20,13 +20,13 @@ const getUsers = async (req,res) => {
 
 const getUserById = async (req,res) =>{
     try {
-        const id = req.params.id 
+        const id_user = req.params.id_user 
 
-        const [rows] = await db.query(`SELECT * FROM users WHERE id = ?`, [id])
+        const [rows] = await db.query(`SELECT * FROM users WHERE id_user = ?`, [id_user])
 
         if(rows.length === 0){
             return res.status(404).json({
-                msg : "id tidak ada",
+                msg : "id_user tidak ada",
             })
         }
 
@@ -44,15 +44,15 @@ const getUserById = async (req,res) =>{
 
 const createUser = async (req,res) => {
     try {
-        const {name,email,password,role} = req.body
+        const {name,email,password,role, saldo} = req.body
 
-        if(!name|| !email || !password || !role){
+        if(!name|| !email || !password || !role || !saldo){
             return res.status(400).json({
                 msg : "semua field harus diisi"
             })
         }
         
-        const [cekEmail] = await db.query(`SELECT id FROM users WHERE email = ?`, [email])
+        const [cekEmail] = await db.query(`SELECT id_user FROM users WHERE email = ?`, [email])
 
         if(cekEmail.length >0) {
             return res.status(409).json({
@@ -62,7 +62,7 @@ const createUser = async (req,res) => {
 
         const hashPassword = await bcrypt.hash(password, 10)
 
-        const [result] = await db.query(`INSERT INTO users (name, email, password, role) VALUES (?, ? , ?, ?)`, [name,email,hashPassword, role])
+        const [result] = await db.query(`INSERT INTO users (name, email, password, role, saldo) VALUES (?, ? , ?, ?,?)`, [name,email,hashPassword, role, saldo])
         
         res.status(201).json({
             msg : "user berhasil dibuat"
@@ -77,7 +77,7 @@ const createUser = async (req,res) => {
 
 const updateUser = async (req,res) => {
     try {
-        const id = req.params.id
+        const id_user = req.params.id_user
         const {name, email, password,role} = req.body
 
         if(!name || !email || !password || !role) {
@@ -86,14 +86,14 @@ const updateUser = async (req,res) => {
             })
         }
 
-        const [cekUser] = await db.query (`SELECT id, email FROM users WHERE id = ?`, [id])
+        const [cekUser] = await db.query (`SELECT id_user, email FROM users WHERE id_user = ?`, [id_user])
 
         if(cekUser.length === 0) {
             return res.status(404).json({
                 msg : "user not found"
             })
         }
-        const [cekEmail] = await db.query ('SELECT id FROM users WHERE email = ? AND id != ? ', [email,id])
+        const [cekEmail] = await db.query ('SELECT id_user FROM users WHERE email = ? AND id_user != ? ', [email,id_user])
 
         if(cekEmail.length > 0 ) {
             return res.status(409).json({
@@ -103,11 +103,11 @@ const updateUser = async (req,res) => {
 
         const hashPassword = await bcrypt.hash(password, 10)
 
-        await db.query (`UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id = ? `, [name, email,hashPassword, role, id])
+        await db.query (`UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE id_user = ? `, [name, email,hashPassword, role, id_user])
         res.status(200).json({
             msg : "user berhasil di update",
             payload : ({
-                id : cekUser[0].id,
+                id_user : cekUser[0].id_user,
                 name : name,
                 email : email,
                 role : role
@@ -127,27 +127,27 @@ const updateUser = async (req,res) => {
 const deleteUser = async (req,res) => {
 
     try {
-        const id =req.params.id
+        const id_user =req.params.id_user
 
-    if(!id) {
+    if(!id_user) {
         return res.status(400).json({
             msg : "semua field harus diisi"
         })
     }
 
-    const [cekId] = await db.query(`SELECT email FROM users WHERE id =? `,[id])
+    const [cekid_user] = await db.query(`SELECT email FROM users WHERE id_user =? `,[id_user])
 
-    if(cekId.length === 0) {
+    if(cekid_user.length === 0) {
         return res.status(404).json({
             msg : "user not found"
         })
     }
 
 
-    await db.query(`DELETE from users WHERE id = ? `, [id])
+    await db.query(`DELETE from users WHERE id_user = ? `, [id_user])
 
     res.status(200).json({
-        msg : `user dengan id = ${id} berhasil dihapus`
+        msg : `user dengan id_user = ${id_user} berhasil dihapus`
     })
 
     } catch (error) {
