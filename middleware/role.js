@@ -18,7 +18,9 @@ const isMember = async (req, res , next) => {
 
 const isOwner = async (req, res, next) => {
     const idTarget = req.params.id_user
-    const idPengguna = req.user.id_user
+    const idPengguna = req.user.id
+    console.log(idTarget)
+    console.log (idPengguna)
     const rolePengguna = req.user.role
 
     if (rolePengguna === "admin"){

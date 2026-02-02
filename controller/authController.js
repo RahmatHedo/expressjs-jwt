@@ -29,7 +29,8 @@ const login = async (req,res) => {
 
         const token = jwt.sign({
             id : user.id_user,
-            role : user.role
+            role : user.role,
+            saldo : user.saldo
         },
             process.env.SECRET_KEY,
         {
@@ -40,6 +41,7 @@ const login = async (req,res) => {
             msg : "login berhasil",
             id : user.id_user,
             role : user.role,
+            saldo : user.saldo,
             token
         })
     } catch (error) {

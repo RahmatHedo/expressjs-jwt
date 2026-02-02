@@ -9,10 +9,17 @@ const {
     deleteProduk
 } = require ("../controller/produkController.js")
 
+const auth = require ("../middleware/auth.js")
+const {isAdmin,
+        isMember,
+        isOwner 
+    } = require ("../middleware/role.js")
+
+
 router.get("/" , getProduk)
 router.get("/:id_produk", getProdukById)
-router.post("/", createProduk)
-router.put("/:id_produk", updateProduk)
-router.delete("/:id_produk", deleteProduk)
+router.post("/", auth, isAdmin, createProduk)
+router.put("/:id_produk", auth, isAdmin, updateProduk)
+router.delete("/:id_produk", auth, isAdmin, deleteProduk)
 
 module.exports = router
